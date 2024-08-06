@@ -25,7 +25,7 @@ Deploy  the  stack  using  Docker  Compose:
 
 1. git  clone  https://github.com/HovhannesHovakimyan/monitoring-test.git
 2. cd  monitoring-test
-3. Use `docker-compose  up  --build` (or  `docker-compose  up  -d`  for  a  detached  mode) command to start the deployment.
+3. Use `docker-compose  up  --build` for interactive mode (or  `docker-compose  up  -d`  for  a  detached  mode) command to start the deployment.
 
 
 Depending on your system, give it a minute to deploy and verify the components of the deployed services.
