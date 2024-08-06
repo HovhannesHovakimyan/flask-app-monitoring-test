@@ -30,15 +30,18 @@ logger.setLevel(logging.INFO)
 
 app = Flask(__name__)
 
+
 @app.route("/get")
 def get():
     logger.warning("Received GET request")
     return {"success": True}
 
+
 @app.route("/post", methods=["POST"])
 def post():
     logger.info("Received POST request")
     return {"success": True}
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080, debug=True)
