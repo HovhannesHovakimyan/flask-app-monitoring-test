@@ -23,7 +23,7 @@
 ### Step 1: Clone the Repository
 Deploy  the  stack  using  Docker  Compose:
 
-1. git  clone  https://github.com/HovhannesHovakimyan/monitoring-test.git
+1. git  clone  https://github.com/HovhannesHovakimyan/flask-app-monitoring-test.git
 2. cd  monitoring-test
 3. Use `docker-compose  up  --build` for interactive mode (or  `docker-compose  up  -d`  for  a  detached  mode) command to start the deployment.
 4. This will deploy Flask Dummy app, Grafana (with default datasource and dashbaord configured), Alloy, Promtail, and Loki.

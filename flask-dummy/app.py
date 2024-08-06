@@ -8,6 +8,7 @@ from opentelemetry.sdk._logs import LoggerProvider, LoggingHandler
 from opentelemetry.sdk.resources import Resource
 from opentelemetry._logs import set_logger_provider
 
+
 logger_provider = LoggerProvider(
     resource=Resource.create(
         {
