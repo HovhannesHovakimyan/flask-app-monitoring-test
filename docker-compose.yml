@@ -5,18 +5,18 @@ services:
     ports:
       - "8080:8080"
 
-  alloy:
-    image: grafana/alloy:latest
-    container_name: alloy
-    volumes:
-      - ./alloy/config.alloy:/etc/alloy/config.alloy
-    expose:
-      - 4317
-    ports:
-      - "4317:4317"
-    command: >
-      run --server.http.listen-addr=0.0.0.0:4317 --storage.path=/var/lib/alloy/data
-      /etc/alloy/config.alloy
+  # alloy:
+  #   image: grafana/alloy:latest
+  #   container_name: alloy
+  #   volumes:
+  #     - ./alloy/config.alloy:/etc/alloy/config.alloy
+  #   expose:
+  #     - 4317
+  #   ports:
+  #     - "4317:4317"
+  #   command: >
+  #     run --server.http.listen-addr=0.0.0.0:4317 --storage.path=/var/lib/alloy/data
+  #     /etc/alloy/config.alloy
 
   loki:
     image: grafana/loki:latest
@@ -27,17 +27,17 @@ services:
       - "3100:3100"
     command: -config.file=/mnt/config/loki-config.yaml
 
-  # promtail:
-  #   image: grafana/promtail:latest
-  #   container_name: promtail
-  #   volumes:
-  #     - ./loki:/mnt/config
-  #     - /var/log:/var/log
-  #   ports:
-  #     - "9080:9080"
-  #   depends_on:
-  #     - loki
-  #   command: -config.file=/mnt/config/promtail-config.yaml
+  promtail:
+    image: grafana/promtail:latest
+    container_name: promtail
+    volumes:
+      - ./loki:/mnt/config
+      - /var/log:/var/log
+    ports:
+      - "9080:9080"
+    depends_on:
+      - loki
+    command: -config.file=/mnt/config/promtail-config.yaml
 
   grafana:
     image: grafana/grafana:latest
