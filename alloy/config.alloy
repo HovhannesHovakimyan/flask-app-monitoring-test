@@ -1,4 +1,23 @@
-logging {
-  level  = "info"
-  format = "logfmt"
+otelcol.receiver.otlp "default" {
+  grpc {}
+
+  output {
+    logs = [otelcol.exporter.loki.default.input]
+  }
+}
+
+otelcol.processor.batch "default" {
+	output {
+		logs = [otelcol.exporter.loki.grafana_cloud_loki.input]
+	}
+}
+
+otelcol.exporter.loki "default" {
+  forward_to = [loki.write.local.receiver]
+}
+
+loki.write "local" {
+  endpoint {
+    url = "loki:3100"
+  }
 }
