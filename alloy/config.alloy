@@ -1,23 +1,67 @@
-otelcol.receiver.otlp "default" {
-  grpc {}
+logging {
+  level  = "debug"
+  format = "logfmt"
+}
+
+otelcol.receiver.otlp "otlp_receiver" {
+  http {
+    endpoint = "0.0.0.0:4318"
+  }
+
+  output {
+    logs    = [otelcol.processor.batch.default.input]
+  }
+}
+
+otelcol.processor.batch "default" {
+  output {
+    logs    = [otelcol.exporter.loki.default.input]
+  }
+}
+
+otelcol.processor.attributes "default" {
+
+  action {
+    key = "loki.resource.labels"
+    action = "insert"
+    value = "service.name, service.instance.id"
+  }
 
   output {
     logs = [otelcol.exporter.loki.default.input]
   }
 }
 
-otelcol.processor.batch "default" {
-	output {
-		logs = [otelcol.exporter.loki.grafana_cloud_loki.input]
-	}
+otelcol.exporter.logging "default" {
+    verbosity           = "detailed"
+    sampling_initial    = 1
+    sampling_thereafter = 1
 }
 
 otelcol.exporter.loki "default" {
-  forward_to = [loki.write.local.receiver]
+  forward_to = [loki.echo.stdout.receiver, loki.write.local.receiver]
 }
 
+loki.echo "stdout" { }
+
+loki.process "drop_if_no_level" {
+  forward_to = [loki.write.local.receiver]
+
+  stage.json {
+    expressions = {
+      output  = "log",
+      level   = "level",
+      time    = "time",
+      file    = "file",
+      message = "message",
+    }
+  }
+}
+
+// Remote Write
+// https://grafana.com/docs/loki/latest/reference/api/#push-log-entries-to-loki
 loki.write "local" {
   endpoint {
-    url = "loki:3100"
+    url = "http://loki:3100/loki/api/v1/push"
   }
 }
