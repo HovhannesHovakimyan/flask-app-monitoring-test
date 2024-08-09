@@ -4,6 +4,8 @@ services:
     container_name: flask-dummy
     ports:
       - "8080:8080"
+    networks:
+      - monitoring
     depends_on:
       - loki
 
@@ -16,6 +18,8 @@ services:
       - "4317:4317"
       - "4318:4318"
       - "12345:12345"
+    networks:
+      - monitoring
     depends_on:
       - loki
     command: >
@@ -29,6 +33,8 @@ services:
       - ./loki:/mnt/config
     ports:
       - "3100:3100"
+    networks:
+      - monitoring
     command: -config.file=/mnt/config/loki-config.yaml
 
   # promtail:
@@ -54,10 +60,17 @@ services:
       - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_LOG_LEVEL=debug
     ports:
       - "3000:3000"
+    networks:
+      - monitoring
     depends_on:
       - loki
+
+networks:
+  monitoring:
+    driver: bridge
 
 volumes:
   grafana-storage:
