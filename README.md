@@ -33,10 +33,8 @@ Depending on your system, give it a minute to deploy and verify the components o
 
 - Alloy
 http://localhost:12345/clustering
-- Promtail
-http://localhost:9080/targets
 - Loki
-http://localhost:3100/ready (you should see `ready` when the system is ready)
+http://localhost:3100/ready
 http://localhost:3100/metrics
 - Grafana
 http://localhost:3000/
