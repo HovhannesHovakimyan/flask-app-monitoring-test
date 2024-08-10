@@ -1,5 +1,5 @@
 
-# Flask App with Logging Using OpenTelemetry, Alloy, Loki, Promtail, and Grafana
+# Flask App with Logging Using OpenTelemetry, Alloy, Loki, and Grafana
 
 
 
