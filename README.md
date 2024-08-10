@@ -17,7 +17,7 @@
 
 
 
-## Deployment & Teardown Manual
+## Deployment, Testing & Teardown Instructions
 
 
 ### Step 1: Deploy the solution
