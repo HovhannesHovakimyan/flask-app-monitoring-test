@@ -59,13 +59,13 @@ done
 `
 4. For Linux/macOS
 `
-for i in {1..100}; do
+for i in {1..50}; do
     curl +X POST http://localhost:8080/post
 done
 `
 5. For Windows (starting from Windows 10 version 1803 and Windows Server 2019)
 `
-for i in {1..100}; do
+for i in {1..50}; do
     curl +X POST http://localhost:8080/post
 done
 `
