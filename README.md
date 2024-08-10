@@ -69,7 +69,7 @@ for i in {1..50}; do
     curl +X POST http://localhost:8080/post
 done
 `
-6. You should see logs from your Flask Dummy application in Grafana's `Loki Logs Dashboard`.
+6. You should see logs containing "Received GET request" and "Received POST request" from your Flask Dummy application in Grafana's `Loki Logs` dashboard and `Loki` data source.
 
 
 ### Step 3: Remove the solution
