@@ -7,7 +7,7 @@
 
 
 
-- Docker and Docker Compose installed
+- Docker, Docker Compose and CURL installed
 
 - Minimum 4 GB RAM
 
@@ -20,7 +20,7 @@
 ## Deployment & Teardown Manual
 
 
-### Step 1: Clone the Repository
+### Step 1: Deploy the solution
 Deploy  the  stack  using  Docker  Compose:
 
 1. git  clone  https://github.com/HovhannesHovakimyan/flask-app-monitoring-test.git
@@ -41,12 +41,22 @@ http://localhost:3100/metrics
 - Grafana
 http://localhost:3000/
 
-### Step 2: How to Test the Solution
-1. Open your browser and navigate to `http://localhost:8080/get` to generate a GET request log.
-2. Use `curl` to send a POST request: `curl -X POST http://localhost:8080/post`
-3. You should see logs from your Flask application in Grafana's `Loki Logs Dashboard`.
 
-### Step 3: Remove the deployment
+### Step 2: How to Test the Solution
+
+1. Using CLI, let's make 100 GET and 50 POST requests to the Flask Dummy app.
+2. `for i in {1..100}; do
+    curl http://localhost:8080/get
+done
+`
+3. `for i in {1..100}; do
+    curl -X POST http://localhost:8080/post
+done
+`
+4. You should see logs from your Flask Dummy application in Grafana's `Loki Logs Dashboard`.
+
+
+### Step 3: Remove the solution
 1. Stop the deployment using `Ctrl + C` keys combination if the deployment was started in the interactive mode.
 2. Use `docker-compose down` command to remove the deployment.
 
@@ -55,15 +65,11 @@ http://localhost:3000/
 +----------------+    +--------------+    +------+    +--------+    +--------+
 | Flask App      | -> | OpenTelemetry| -> | Alloy| -> | Loki   | -> | Grafana|
 +----------------+    +--------------+    +------+    +--------+    +--------+
-                             |                            ^
-                             |                            |
-                             +----------------------------+
-                                       Promtail
+
 ```
 
 -   **Flask App**: Generates logs.
 -   **OpenTelemetry**: Collects and exports logs.
 -   **Alloy**: Receives logs from OpenTelemetry.
--   **Promtail**: Scrapes logs and pushes them to Loki.
 -   **Loki**: Stores and indexes logs.
 -   **Grafana**: Visualizes logs from Loki.

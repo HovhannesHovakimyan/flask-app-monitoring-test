@@ -1,12 +1,5 @@
-logging {
-  level  = "debug"
-  format = "logfmt"
-}
-
 otelcol.receiver.otlp "otlp_receiver" {
-  http {
-    endpoint = "0.0.0.0:4318"
-  }
+  grpc {}
 
   output {
     logs    = [otelcol.processor.batch.default.input]
@@ -20,7 +13,6 @@ otelcol.processor.batch "default" {
 }
 
 otelcol.processor.attributes "default" {
-
   action {
     key = "loki.resource.labels"
     action = "insert"
@@ -58,8 +50,6 @@ loki.process "drop_if_no_level" {
   }
 }
 
-// Remote Write
-// https://grafana.com/docs/loki/latest/reference/api/#push-log-entries-to-loki
 loki.write "local" {
   endpoint {
     url = "http://loki:3100/loki/api/v1/push"

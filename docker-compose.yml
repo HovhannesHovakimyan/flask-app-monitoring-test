@@ -4,22 +4,17 @@ services:
     container_name: flask-dummy
     ports:
       - "8080:8080"
-    networks:
-      - monitoring
-    depends_on:
-      - loki
 
   alloy:
     image: grafana/alloy:latest
     container_name: alloy
     volumes:
       - ./alloy/config.alloy:/etc/alloy/config.alloy
+      - ./logs:/tmp/app-logs/
     ports:
+      - "12345:12345"
       - "4317:4317"
       - "4318:4318"
-      - "12345:12345"
-    networks:
-      - monitoring
     depends_on:
       - loki
     command: >
@@ -33,44 +28,23 @@ services:
       - ./loki:/mnt/config
     ports:
       - "3100:3100"
-    networks:
-      - monitoring
     command: -config.file=/mnt/config/loki-config.yaml
-
-  # promtail:
-  #   image: grafana/promtail:latest
-  #   container_name: promtail
-  #   volumes:
-  #     - ./loki:/mnt/config
-  #     - /var/log:/var/log
-  #   ports:
-  #     - "9080:9080"
-  #   depends_on:
-  #     - loki
-  #   command: -config.file=/mnt/config/promtail-config.yaml
 
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
     volumes:
+      - ./grafana:/etc/grafana/provisioning
       - grafana-storage:/var/lib/grafana
-      - ./provisioning:/etc/grafana/provisioning
       - ./loki-dashboard.json:/var/lib/grafana/dashboards/loki-dashboard.json
     environment:
-      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
-      - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
-      - GF_LOG_LEVEL=debug
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_BASIC_ENABLED=false
+      - GF_FEATURE_TOGGLES_ENABLE=accessControlOnCall
+      - GF_INSTALL_PLUGINS=https://storage.googleapis.com/integration-artifacts/grafana-lokiexplore-app/grafana-lokiexplore-app-latest.zip;grafana-lokiexplore-app
     ports:
       - "3000:3000"
-    networks:
-      - monitoring
-    depends_on:
-      - loki
-
-networks:
-  monitoring:
-    driver: bridge
 
 volumes:
   grafana-storage:

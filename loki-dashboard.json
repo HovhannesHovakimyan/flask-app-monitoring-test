@@ -25,7 +25,7 @@
       },
       "targets": [
         {
-          "expr": "{job=\"varlogs\"}",
+          "expr": "{job=\"flask-dummy\"}",
           "refId": "A"
         }
       ]
