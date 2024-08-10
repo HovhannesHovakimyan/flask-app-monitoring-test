@@ -32,7 +32,7 @@ Deploy  the  stack  using  Docker  Compose:
 Depending on your system, give it a minute to deploy and verify the components of the deployed services.
 
 - Alloy
-http://localhost:12345/clustering
+http://localhost:12345/
 - Loki
 http://localhost:3100/ready
 http://localhost:3100/metrics
