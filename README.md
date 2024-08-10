@@ -45,15 +45,31 @@ http://localhost:3000/
 ### Step 2: How to Test the Solution
 
 1. Using CLI, let's make 100 GET and 50 POST requests to the Flask Dummy app.
-2. `for i in {1..100}; do
+2. For Linux/macOS
+`
+for i in {1..100}; do
     curl http://localhost:8080/get
 done
 `
-3. `for i in {1..100}; do
-    curl -X POST http://localhost:8080/post
+3. For Windows (starting from Windows 10 version 1803 and Windows Server 2019)
+`
+for i in {1..100}; do
+    curl http://localhost:8080/get
 done
 `
-4. You should see logs from your Flask Dummy application in Grafana's `Loki Logs Dashboard`.
+4. For Linux/macOS
+`
+for i in {1..100}; do
+    curl +X POST http://localhost:8080/post
+done
+`
+5. For Windows (starting from Windows 10 version 1803 and Windows Server 2019)
+`
+for i in {1..100}; do
+    curl +X POST http://localhost:8080/post
+done
+`
+6. You should see logs from your Flask Dummy application in Grafana's `Loki Logs Dashboard`.
 
 
 ### Step 3: Remove the solution
